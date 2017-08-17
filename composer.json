@@ -1,0 +1,44 @@
+{
+    "name": "drupal-module/http_handler",
+    "description": "This module provide handler in order to support multiple Exceptions for 4xx or 5xx HTTP status code",
+    "type": "drupal-module",
+    "keywords": ["Drupal", "module", "http", "handler", "core", "improvement", "exceptions"],
+    "homepage": "https://github.com/ducks-project/http-handler",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrien Loyant",
+            "email": "donaldinou@gmail.com",
+            "homepage": "https://github.com/donaldinou",
+            "role": "Developper"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/7"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.9"
+    },
+    "conflict": {
+        "drupal/drupal": "<6.0 >8.0"
+    },
+    "support": {
+        "email": "support@drupal.org"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Drupal\\http_handler\\": "src"
+        },
+        "exclude-from-classmap": [
+            "/src/Tests/"
+        ]
+    },
+    "config": {
+        "secure-http": false
+    }
+}

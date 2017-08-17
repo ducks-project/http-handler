@@ -1,0 +1,227 @@
+<?php
+
+define('HTTP_BAD_REQUEST', 400);
+define('HTTP_UNAUTHORIZED', 401);
+define('HTTP_ACCESS_DENIED', 403);
+define('HTTP_NOT_FOUND', 404);
+define('HTTP_METHOD_NOT_ALLOWED', 405);
+
+/**
+ * Set a new exception handler for drupal
+ * Implements hook_init
+ *
+ * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_init/7
+ */
+function http_handler_init() {
+    set_exception_handler('http_handler_exception_handler');
+}
+
+/**
+ * Set a new delivery page for drupal
+ * Implements hook_page_delivery_callback_alter().
+ *
+ * @param string $callback The name of a function
+ * @return void
+ *
+ * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_page_delivery_callback_alter/7.x
+ */
+function http_handler_page_delivery_callback_alter(&$callback) {
+    if ($callback == 'drupal_deliver_html_page') {
+        $callback = 'http_handler_deliver_html_page';
+    }
+}
+
+/**
+ * Change the exception handler
+ * Callback : @see http_handler_init
+ *
+ * @param \Exception $exception The exception raised
+ * @return void
+ *
+ * @todo be more specific for exception and add an alter
+ */
+function http_handler_exception_handler(\Exception $exception) {
+    watchdog_exception('http_handler', $exception);
+    switch (true) {
+        case $exception instanceof \BadMethodCallException:
+            drupal_method_not_allowed();
+            break;
+        case $exception instanceof \InvalidArgumentException:
+        case $exception instanceof \UnexpectedValueException:
+        case $exception instanceof \RuntimeException:
+            drupal_bad_request();
+            break;
+        default:
+            _drupal_exception_handler($exception);
+            break;
+    }
+}
+
+/**
+ * Packages and sends the result of a page callback to the browser as HTML.
+ * Callback : @see http_handler_page_delivery_callback_alter
+ *
+ * @param mixed $page_callback_result The result of a page callback.
+ * @return void
+ */
+function http_handler_deliver_html_page($page_callback_result) {
+    // Emit the correct charset HTTP header, but not if the page callback
+    // result is NULL, since that likely indicates that it printed something
+    // in which case, no further headers may be sent, and not if code running
+    // for this page request has already set the content type header.
+    if (isset($page_callback_result) && is_null(drupal_get_http_header('Content-Type'))) {
+        drupal_add_http_header('Content-Type', 'text/html; charset=utf-8');
+    }
+
+    // Send appropriate HTTP-Header for browsers and search engines.
+    global $language;
+    drupal_add_http_header('Content-Language', $language->language);
+
+    // By default, do not allow the site to be rendered in an iframe on another
+    // domain, but provide a variable to override this. If the code running for
+    // this page request already set the X-Frame-Options header earlier, don't
+    // overwrite it here.
+    $frame_options = variable_get('x_frame_options', 'SAMEORIGIN');
+    if ($frame_options && is_null(drupal_get_http_header('X-Frame-Options'))) {
+        drupal_add_http_header('X-Frame-Options', $frame_options);
+    }
+
+    $default_site_403 = variable_get('site_403', '');
+
+    $q = $_GET['q'];
+    switch ($page_callback_result) {
+        case HTTP_BAD_REQUEST:
+            drupal_add_http_header('Status', HTTP_BAD_REQUEST.' Bad Request');
+            watchdog('bad request', check_plain($q), NULL, WATCHDOG_WARNING);
+
+            // Keep old path for reference, and to allow forms to redirect to it.
+            if (!isset($_GET['destination'])) {
+                // Make sure that the current path is not interpreted as external URL.
+                if (!url_is_external($q)) {
+                    $_GET['destination'] = $q;
+                }
+            }
+
+            // act as 400 in order to use defined page
+            $path = drupal_get_normal_path(variable_get('site_'.$page_callback_result, $default_site_403));
+            if ($path && $path != $q) {
+                menu_set_active_item($path);
+                $return = menu_execute_active_handler($path, false);
+            }
+
+            if (empty($return) || $return == MENU_NOT_FOUND || $return == MENU_ACCESS_DENIED) {
+                drupal_set_title(t('Bad Request'));
+                $return = t('You are not authorized to access this page.');
+            }
+
+            echo drupal_render_page($return);
+
+            // Perform end-of-request tasks.
+            drupal_page_footer();
+            break;
+
+        case HTTP_UNAUTHORIZED:
+            drupal_add_http_header('Status', HTTP_UNAUTHORIZED.' Unauthorized');
+            watchdog('Authentication required', check_plain($q), NULL, WATCHDOG_WARNING);
+
+            // Keep old path for reference, and to allow forms to redirect to it.
+            if (!isset($_GET['destination'])) {
+                // Make sure that the current path is not interpreted as external URL.
+                if (!url_is_external($q)) {
+                    $_GET['destination'] = $q;
+                }
+            }
+
+            // act as 401 in order to use defined page
+            $path = drupal_get_normal_path(variable_get('site_'.$page_callback_result, $default_site_403));
+            if ($path && $path != $q) {
+                menu_set_active_item($path);
+                $return = menu_execute_active_handler($path, false);
+            }
+
+            if (empty($return) || $return == MENU_NOT_FOUND || $return == MENU_ACCESS_DENIED) {
+                drupal_set_title(t('Access Unauthorized'));
+                $return = t('You are not authorized to access this page.');
+            }
+
+            echo drupal_render_page($return);
+
+            // Perform end-of-request tasks.
+            drupal_page_footer();
+            break;
+
+        case HTTP_METHOD_NOT_ALLOWED:
+            drupal_add_http_header('Status', HTTP_METHOD_NOT_ALLOWED.' Method Not Allowed');
+            watchdog('method not allowed', check_plain($q), NULL, WATCHDOG_WARNING);
+
+            // Keep old path for reference, and to allow forms to redirect to it.
+            if (!isset($_GET['destination'])) {
+                // Make sure that the current path is not interpreted as external URL.
+                if (!url_is_external($q)) {
+                    $_GET['destination'] = $q;
+                }
+            }
+
+            // act as 405 in order to use defined page
+            $path = drupal_get_normal_path(variable_get('site_'.$page_callback_result, $default_site_403));
+            if ($path && $path != $q) {
+                menu_set_active_item($path);
+                $return = menu_execute_active_handler($path, false);
+            }
+
+            if (empty($return) || $return == MENU_NOT_FOUND || $return == MENU_ACCESS_DENIED) {
+                drupal_set_title(t('Method Not Allowed'));
+                $return = t('You are not authorized to access this page.');
+            }
+
+            echo drupal_render_page($return);
+
+            // Perform end-of-request tasks.
+            drupal_page_footer();
+            break;
+
+        case HTTP_NOT_FOUND:
+            return drupal_deliver_html_page($page_callback_result);
+            break;
+
+        case HTTP_ACCESS_DENIED:
+        case MENU_ACCESS_DENIED:
+            if (user_is_anonymous()) {
+                return http_handler_deliver_html_page(HTTP_UNAUTHORIZED);
+            } else {
+                return drupal_deliver_html_page($page_callback_result);
+            }
+            break;
+
+        default:
+            return drupal_deliver_html_page($page_callback_result);
+            break;
+    }
+}
+
+/**
+ * Delivers a "bad request" error to the browser.
+ *
+ * @return void
+ */
+function drupal_bad_request() {
+    drupal_deliver_page(HTTP_BAD_REQUEST);
+}
+
+/**
+ * Delivers a "unauthorized" error to the browser.
+ *
+ * @return void
+ */
+function drupal_unauthorized() {
+    drupal_deliver_page(HTTP_UNAUTHORIZED);
+}
+
+/**
+ * Delivers a "method not allowed" error to the browser.
+ *
+ * @return void
+ */
+function drupal_method_not_allowed() {
+    drupal_deliver_page(HTTP_METHOD_NOT_ALLOWED);
+}
