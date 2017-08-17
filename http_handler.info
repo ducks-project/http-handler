@@ -1,0 +1,17 @@
+name = HTTP Handler
+description = This module provide handler in order to support multiple Exceptions for 4xx or 5xx HTTP status code.
+core = 7.x
+php = 5.3
+
+package = Core Improvement
+
+dependencies[] = system
+
+files[] = http_handler.install
+files[] = http_handler.module
+files[] = http_handler.test
+
+files[] = src/
+
+; Discouraged but this module is not hosted to drupal
+version = 7.x-0.1.0
