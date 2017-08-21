@@ -4,7 +4,7 @@
     "type": "drupal-module",
     "keywords": ["Drupal", "module", "http", "handler", "core", "improvement", "exceptions"],
     "homepage": "https://github.com/ducks-project/http-handler",
-    "license": "MIT",
+    "license": "GPL-2.0",
     "authors": [
         {
             "name": "Adrien Loyant",
@@ -24,6 +24,10 @@
     },
     "conflict": {
         "drupal/drupal": "<6.0 >8.0"
+    },
+    "suggest": {
+        "drupal/markdown": "Provides Markdown filter integration for Drupal input formats",
+        "drupal/xautoload": "provides Drupal-8-style PSR-4"
     },
     "support": {
         "email": "support@drupal.org"

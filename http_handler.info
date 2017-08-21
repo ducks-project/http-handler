@@ -7,11 +7,4 @@ package = Core Improvement
 
 dependencies[] = system
 
-files[] = http_handler.install
-files[] = http_handler.module
-files[] = http_handler.test
-
-files[] = src/
-
-; Discouraged but this module is not hosted to drupal
-version = 7.x-0.1.0
+files[] = src/Component/Enum/HttpStatusCodeEnum.php

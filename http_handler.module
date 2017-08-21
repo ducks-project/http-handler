@@ -1,56 +1,177 @@
 <?php
 
-define('HTTP_BAD_REQUEST', 400);
-define('HTTP_UNAUTHORIZED', 401);
-define('HTTP_ACCESS_DENIED', 403);
-define('HTTP_NOT_FOUND', 404);
-define('HTTP_METHOD_NOT_ALLOWED', 405);
+/**
+ * @file
+ * Enables the ability to return correct HTTP Status code.
+ */
+
+use Drupal\http_handler\Component\Enum\HttpStatusCodeEnum;
 
 /**
- * Set a new exception handler for drupal
- * Implements hook_init
+ * Implements hook_help().
+ *
+ * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_help/7.x
+ */
+function http_handler_help($path, $arg)
+{
+    switch ($path) {
+        case 'admin/help#http_handler':
+            $output = '<pre>';
+            $filepath = drupal_module('module', 'http_handler') . DIRECTORY_SEPARATOR . 'README.md';
+            if (file_exists($filepath)) {
+                if ($readme = file_get_contents($filepath)) {
+                    $output .= $readme;
+                    if (module_exists('markdown')) {
+                        $filters = module_invoke('markdown', 'filter_info');
+                        $info = $filters['filter_markdown'];
+                        if (function_exists($info['process callback'])) {
+                            $output = $info['process callback']($readme, null);
+                        }
+                    }
+                }
+            }
+            $output .= '</pre>';
+            break;
+
+        default:
+            // Nothing...
+            break;
+    }
+}
+
+/**
+ * Implements hook_init().
  *
  * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_init/7
  */
-function http_handler_init() {
+function http_handler_init()
+{
+    module_load_include('inc', 'http_handler', 'includes/http_handler.functions');
     set_exception_handler('http_handler_exception_handler');
 }
 
 /**
- * Set a new delivery page for drupal
  * Implements hook_page_delivery_callback_alter().
- *
- * @param string $callback The name of a function
- * @return void
  *
  * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_page_delivery_callback_alter/7.x
  */
-function http_handler_page_delivery_callback_alter(&$callback) {
+function http_handler_page_delivery_callback_alter(&$callback)
+{
     if ($callback == 'drupal_deliver_html_page') {
         $callback = 'http_handler_deliver_html_page';
     }
 }
 
 /**
- * Change the exception handler
- * Callback : @see http_handler_init
+ * Implements hook_form_FORM_ID_alter().
  *
- * @param \Exception $exception The exception raised
- * @return void
+ * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
+ */
+function http_handler_form_system_site_information_settings_alter(&$form, &$form_state, $form_id)
+{
+    $clean_url = variable_get('clean_url', 0);
+    $default_site_403 = variable_get('site_403', '');
+
+    $form['error_page']['site_' . HttpStatusCodeEnum::HTTP_BAD_REQUEST] = array(
+        '#type' => 'textfield',
+        '#title' => t('Default @code (@text) page', array('@code' => HttpStatusCodeEnum::HTTP_BAD_REQUEST, '@text' => 'bad request')),
+        '#default_value' => variable_get('site_' . HttpStatusCodeEnum::HTTP_BAD_REQUEST, $default_site_403),
+        '#size' => 40,
+        '#description' => t(
+            'This page is displayed when the requested document is on error to the current user. Leave blank to display a generic "@text" page.',
+            array('@text' => 'bad request')
+        ),
+        '#field_prefix' => url(null, array('absolute' => true)) . ($clean_url ? '' : '?q='),
+    );
+    $form['error_page']['site_' . HttpStatusCodeEnum::HTTP_UNAUTHORIZED] = array(
+        '#type' => 'textfield',
+        '#title' => t('Default @code (@text) page', array('@code' => HttpStatusCodeEnum::HTTP_UNAUTHORIZED, '@text' => 'unauthorized')),
+        '#default_value' => variable_get('site_' . HttpStatusCodeEnum::HTTP_UNAUTHORIZED, $default_site_403),
+        '#size' => 40,
+        '#description' => t(
+            'This page is displayed when the requested document is on error to the current user. Leave blank to display a generic "@text" page.',
+            array('@text' => 'unauthorized')
+        ),
+        '#field_prefix' => url(null, array('absolute' => true)) . ($clean_url ? '' : '?q='),
+    );
+    $form['error_page']['site_' . HttpStatusCodeEnum::HTTP_METHOD_NOT_ALLOWED] = array(
+        '#type' => 'textfield',
+        '#title' => t('Default @code (@text) page', array('@code' => HttpStatusCodeEnum::HTTP_METHOD_NOT_ALLOWED, '@text' => 'method not allowed')),
+        '#default_value' => variable_get('site_' . HttpStatusCodeEnum::HTTP_METHOD_NOT_ALLOWED, $default_site_403),
+        '#size' => 40,
+        '#description' => t(
+            'This page is displayed when the requested document is on error to the current user. Leave blank to display a generic "@text" page.',
+            array('@text' => 'method not allowed')
+        ),
+        '#field_prefix' => url(null, array('absolute' => true)) . ($clean_url ? '' : '?q='),
+    );
+
+    $form['#validate'][] = 'http_handler_system_site_information_settings_validate';
+}
+
+/**
+ * Validates the submitted site-information form.
+ *
+ * Callback for http_handler_form_system_site_information_settings_alter().
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param array $form_state
+ *   A keyed array containing the current state of the form.
+ *
+ * @see system_site_information_settings_validate()
+ */
+function http_handler_system_site_information_settings_validate(array $form, array &$form_state)
+{
+    // Validate 400 error path.
+    if (
+           !empty($form_state['values']['site_' . HttpStatusCodeEnum::HTTP_BAD_REQUEST])
+        && !drupal_valid_path($form_state['values']['site_' . HttpStatusCodeEnum::HTTP_BAD_REQUEST])
+    ) {
+        form_set_error('site_' . HttpStatusCodeEnum::HTTP_BAD_REQUEST, t('The path "@path" is either invalid or you do not have access to it.', array('@path' => $form_state['values']['site_' . HttpStatusCodeEnum::HTTP_BAD_REQUEST])));
+    }
+
+    // Validate 401 error path.
+    if (
+           !empty($form_state['values']['site_' . HttpStatusCodeEnum::HTTP_UNAUTHORIZED])
+        && !drupal_valid_path($form_state['values']['site_' . HttpStatusCodeEnum::HTTP_UNAUTHORIZED])
+    ) {
+        form_set_error('site_' . HttpStatusCodeEnum::HTTP_UNAUTHORIZED, t('The path "@path" is either invalid or you do not have access to it.', array('@path' => $form_state['values']['site_' . HttpStatusCodeEnum::HTTP_UNAUTHORIZED])));
+    }
+
+    // Validate 405 error path.
+    if (
+           !empty($form_state['values']['site_' . HttpStatusCodeEnum::HTTP_METHOD_NOT_ALLOWED])
+        && !drupal_valid_path($form_state['values']['site_' . HttpStatusCodeEnum::HTTP_METHOD_NOT_ALLOWED])
+    ) {
+        form_set_error('site_' . HttpStatusCodeEnum::HTTP_METHOD_NOT_ALLOWED, t('The path "@path" is either invalid or you do not have access to it.', array('@path' => $form_state['values']['site_' . HttpStatusCodeEnum::HTTP_METHOD_NOT_ALLOWED])));
+    }
+}
+
+/**
+ * Change the exception handler.
+ *
+ * Callback for http_handler_init().
+ *
+ * @param \Exception $exception
+ *   The exception raised.
  *
  * @todo be more specific for exception and add an alter
  */
-function http_handler_exception_handler(\Exception $exception) {
+function http_handler_exception_handler(\Exception $exception)
+{
     watchdog_exception('http_handler', $exception);
     switch (true) {
         case $exception instanceof \BadMethodCallException:
             drupal_method_not_allowed();
             break;
+
         case $exception instanceof \InvalidArgumentException:
         case $exception instanceof \UnexpectedValueException:
         case $exception instanceof \RuntimeException:
             drupal_bad_request();
             break;
+
         default:
             _drupal_exception_handler($exception);
             break;
@@ -59,14 +180,22 @@ function http_handler_exception_handler(\Exception $exception) {
 
 /**
  * Packages and sends the result of a page callback to the browser as HTML.
- * Callback : @see http_handler_page_delivery_callback_alter
  *
- * @param mixed $page_callback_result The result of a page callback.
- * @return void
+ * Callback for http_handler_page_delivery_callback_alter().
+ *
+ * @param mixed $page_callback_result
+ *   The result of a page callback. Can be one of:
+ *   - null: to indicate no content.
+ *   - An integer menu status constant: to indicate an error condition.
+ *   - A string of HTML content.
+ *   - A renderable array of content.
+ *
+ * @see drupal_deliver_page()
  */
-function http_handler_deliver_html_page($page_callback_result) {
+function http_handler_deliver_html_page($page_callback_result)
+{
     // Emit the correct charset HTTP header, but not if the page callback
-    // result is NULL, since that likely indicates that it printed something
+    // result is null, since that likely indicates that it printed something
     // in which case, no further headers may be sent, and not if code running
     // for this page request has already set the content type header.
     if (isset($page_callback_result) && is_null(drupal_get_http_header('Content-Type'))) {
@@ -90,20 +219,18 @@ function http_handler_deliver_html_page($page_callback_result) {
 
     $q = $_GET['q'];
     switch ($page_callback_result) {
-        case HTTP_BAD_REQUEST:
-            drupal_add_http_header('Status', HTTP_BAD_REQUEST.' Bad Request');
-            watchdog('bad request', check_plain($q), NULL, WATCHDOG_WARNING);
+        case HttpStatusCodeEnum::HTTP_BAD_REQUEST:
+            drupal_add_http_header('Status', HttpStatusCodeEnum::HTTP_BAD_REQUEST . ' Bad Request');
+            watchdog('bad request', 'drupal_deliver_page error : @query', array('@query' => check_plain($q)), WATCHDOG_WARNING);
 
-            // Keep old path for reference, and to allow forms to redirect to it.
             if (!isset($_GET['destination'])) {
-                // Make sure that the current path is not interpreted as external URL.
                 if (!url_is_external($q)) {
                     $_GET['destination'] = $q;
                 }
             }
 
-            // act as 400 in order to use defined page
-            $path = drupal_get_normal_path(variable_get('site_'.$page_callback_result, $default_site_403));
+            // Act as 400 in order to use defined page.
+            $path = drupal_get_normal_path(variable_get('site_' . $page_callback_result, $default_site_403));
             if ($path && $path != $q) {
                 menu_set_active_item($path);
                 $return = menu_execute_active_handler($path, false);
@@ -116,24 +243,21 @@ function http_handler_deliver_html_page($page_callback_result) {
 
             echo drupal_render_page($return);
 
-            // Perform end-of-request tasks.
             drupal_page_footer();
             break;
 
-        case HTTP_UNAUTHORIZED:
-            drupal_add_http_header('Status', HTTP_UNAUTHORIZED.' Unauthorized');
-            watchdog('Authentication required', check_plain($q), NULL, WATCHDOG_WARNING);
+        case HttpStatusCodeEnum::HTTP_UNAUTHORIZED:
+            drupal_add_http_header('Status', HttpStatusCodeEnum::HTTP_UNAUTHORIZED . ' Unauthorized');
+            watchdog('authentication required', 'drupal_deliver_page error : @query', array('@query' => check_plain($q)), WATCHDOG_WARNING);
 
-            // Keep old path for reference, and to allow forms to redirect to it.
             if (!isset($_GET['destination'])) {
-                // Make sure that the current path is not interpreted as external URL.
                 if (!url_is_external($q)) {
                     $_GET['destination'] = $q;
                 }
             }
 
-            // act as 401 in order to use defined page
-            $path = drupal_get_normal_path(variable_get('site_'.$page_callback_result, $default_site_403));
+            // Act as 401 in order to use defined page.
+            $path = drupal_get_normal_path(variable_get('site_' . $page_callback_result, $default_site_403));
             if ($path && $path != $q) {
                 menu_set_active_item($path);
                 $return = menu_execute_active_handler($path, false);
@@ -150,20 +274,18 @@ function http_handler_deliver_html_page($page_callback_result) {
             drupal_page_footer();
             break;
 
-        case HTTP_METHOD_NOT_ALLOWED:
-            drupal_add_http_header('Status', HTTP_METHOD_NOT_ALLOWED.' Method Not Allowed');
-            watchdog('method not allowed', check_plain($q), NULL, WATCHDOG_WARNING);
+        case HttpStatusCodeEnum::HTTP_METHOD_NOT_ALLOWED:
+            drupal_add_http_header('Status', HttpStatusCodeEnum::HTTP_METHOD_NOT_ALLOWED . ' Method Not Allowed');
+            watchdog('method not allowed', 'drupal_deliver_page error : @query', array('@query' => check_plain($q)), WATCHDOG_WARNING);
 
-            // Keep old path for reference, and to allow forms to redirect to it.
             if (!isset($_GET['destination'])) {
-                // Make sure that the current path is not interpreted as external URL.
                 if (!url_is_external($q)) {
                     $_GET['destination'] = $q;
                 }
             }
 
-            // act as 405 in order to use defined page
-            $path = drupal_get_normal_path(variable_get('site_'.$page_callback_result, $default_site_403));
+            // Act as 405 in order to use defined page.
+            $path = drupal_get_normal_path(variable_get('site_' . $page_callback_result, $default_site_403));
             if ($path && $path != $q) {
                 menu_set_active_item($path);
                 $return = menu_execute_active_handler($path, false);
@@ -176,52 +298,24 @@ function http_handler_deliver_html_page($page_callback_result) {
 
             echo drupal_render_page($return);
 
-            // Perform end-of-request tasks.
             drupal_page_footer();
             break;
 
-        case HTTP_NOT_FOUND:
-            return drupal_deliver_html_page($page_callback_result);
+        case HttpStatusCodeEnum::HTTP_NOT_FOUND:
+            drupal_deliver_html_page($page_callback_result);
             break;
 
-        case HTTP_ACCESS_DENIED:
+        case HttpStatusCodeEnum::HTTP_FORBIDDEN:
         case MENU_ACCESS_DENIED:
             if (user_is_anonymous()) {
-                return http_handler_deliver_html_page(HTTP_UNAUTHORIZED);
+                http_handler_deliver_html_page(HttpStatusCodeEnum::HTTP_UNAUTHORIZED);
             } else {
-                return drupal_deliver_html_page($page_callback_result);
+                drupal_deliver_html_page($page_callback_result);
             }
             break;
 
         default:
-            return drupal_deliver_html_page($page_callback_result);
+            drupal_deliver_html_page($page_callback_result);
             break;
     }
-}
-
-/**
- * Delivers a "bad request" error to the browser.
- *
- * @return void
- */
-function drupal_bad_request() {
-    drupal_deliver_page(HTTP_BAD_REQUEST);
-}
-
-/**
- * Delivers a "unauthorized" error to the browser.
- *
- * @return void
- */
-function drupal_unauthorized() {
-    drupal_deliver_page(HTTP_UNAUTHORIZED);
-}
-
-/**
- * Delivers a "method not allowed" error to the browser.
- *
- * @return void
- */
-function drupal_method_not_allowed() {
-    drupal_deliver_page(HTTP_METHOD_NOT_ALLOWED);
 }

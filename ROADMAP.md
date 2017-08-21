@@ -1,4 +1,4 @@
 # ROADMAP
 
-* Create Response class on order to get status code from const
 * Add more http status code handler
+* Check for SplEnum : https://github.com/ducks-project/spl-types
