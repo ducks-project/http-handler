@@ -1,5 +1,3 @@
-# $Id$
-#
 # LANGUAGE translation of Drupal (general)
 # Copyright 2017 Adrien Loyant <adrien.loyant@gmail.com>
 # Generated from files:
