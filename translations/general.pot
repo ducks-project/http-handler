@@ -19,58 +19,53 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:77;88;99
 msgid "Default @code (@text) page"
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:80;91;102
 msgid "This page is displayed when the requested document is on error to the current user. Leave blank to display a generic \"@text\" page."
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:131;139;147
 msgid "The path \"@path\" is either invalid or you do not have access to it."
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:240
 msgid "Bad Request"
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:241;268;296
 msgid "You are not authorized to access this page."
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:267
 msgid "Access Unauthorized"
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:295
 msgid "Method Not Allowed"
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:224
 msgid "bad request"
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:224;251;279
 msgid "drupal_deliver_page error : @query"
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:251
 msgid "authentication required"
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:279
 msgid "method not allowed"
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.info:0
+msgid "gone"
+msgstr ""
+
+msgid "Resource Gone"
+msgstr ""
+
+msgid "The resource is no longer available and no redirect address is known."
+msgstr ""
+
 msgid "HTTP Handler"
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.info:0
 msgid "This module provide handler in order to support multiple Exceptions for 4xx or 5xx HTTP status code."
 msgstr ""
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.info:0
 msgid "Core Improvement"
 msgstr ""

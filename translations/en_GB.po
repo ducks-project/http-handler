@@ -20,11 +20,9 @@ msgstr ""
 "Last-Translator: Adrien Loyant <loyant@acreat.com>\n"
 "Language: en_GB\n"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:77;88;99
 msgid "Default @code (@text) page"
 msgstr "Default @code (@text) page"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:80;91;102
 msgid ""
 "This page is displayed when the requested document is on error to the current "
 "user. Leave blank to display a generic \"@text\" page."
@@ -32,47 +30,45 @@ msgstr ""
 "This page is displayed when the requested document is on error to the "
 "current user. Leave blank to display a generic \"@text\" page."
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:131;139;147
 msgid "The path \"@path\" is either invalid or you do not have access to it."
 msgstr "The path \"@path\" is either invalid or you do not have access to it."
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:240
 msgid "Bad Request"
 msgstr "Bad Request"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:241;268;296
 msgid "You are not authorized to access this page."
 msgstr "You are not authorized to access this page."
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:267
 msgid "Access Unauthorized"
 msgstr "Access Unauthorized"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:295
 msgid "Method Not Allowed"
 msgstr "Method Not Allowed"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:224
 msgid "bad request"
 msgstr "bad request"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:224;251;279
 msgid "drupal_deliver_page error : @query"
 msgstr "drupal_deliver_page error : @query"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:251
 msgid "authentication required"
 msgstr "authentication required"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.module:279
 msgid "method not allowed"
 msgstr "method not allowed"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.info:0
+msgid "gone"
+msgstr "gone"
+
+msgid "Resource Gone"
+msgstr "Resource Gone"
+
+msgid "The resource is no longer available and no redirect address is known."
+msgstr "The resource is no longer available and no redirect address is known."
+
 msgid "HTTP Handler"
 msgstr "HTTP Handler"
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.info:0
 msgid ""
 "This module provide handler in order to support multiple Exceptions for 4xx "
 "or 5xx HTTP status code."
@@ -80,6 +76,5 @@ msgstr ""
 "This module provide handler in order to support multiple Exceptions for 4xx "
 "or 5xx HTTP status code."
 
-#: /home/loyant/git/ducks-project/http-handler/http_handler.info:0
 msgid "Core Improvement"
 msgstr "Core Improvement"
