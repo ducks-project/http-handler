@@ -5,6 +5,9 @@
  * Enables the ability to return correct HTTP Status code.
  */
 
+if (!class_exists('Drupal\http_handler\Component\Enum\HttpStatusCodeEnum')) {
+  require_once __DIR__ . DIRECTORY_SEPARATOR . 'src/Component/Enum/HttpStatusCodeEnum.php';
+}
 use Drupal\http_handler\Component\Enum\HttpStatusCodeEnum;
 
 /**
