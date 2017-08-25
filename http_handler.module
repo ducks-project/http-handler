@@ -343,7 +343,7 @@ function http_handler_deliver_html_page($page_callback_result) {
 
       if (empty($return) || $return == MENU_NOT_FOUND || $return == MENU_ACCESS_DENIED) {
         drupal_set_title(t('Resource Gone'));
-        $return = t('The resource is no longer available and no redirect address is known..');
+        $return = t('The resource is no longer available and no redirect address is known.');
       }
 
       echo drupal_render_page($return);
