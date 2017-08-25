@@ -6,6 +6,7 @@
 !bin/console
 !bin/symfony_requirements
 /vendor/
+.mirror_in_github
 
 # Sass & Compass
 */.sass-cache/
