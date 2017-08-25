@@ -6,6 +6,14 @@ where XXX is the change hash
 To get the diff between two versions, go to 
 http://cgit.drupalcode.org/http_handler/diff/?h=XXX
 
+ * 0.4.0 (2017-08-25)
+
+  * DEL : LICENSE (drupal.org)
+  * UPT : Drupal coding Standard
+
+   * Remove site_* var in flavor of http_handler_site_*
+   * Remove drupal_* functions in flavor of http_handler_drupal_*
+
  * 0.3.0 (2017-08-24)
 
   * UPT : Drupal coding standards
