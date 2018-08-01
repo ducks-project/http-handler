@@ -152,12 +152,12 @@ function http_handler_system_site_information_settings_validate(array $form, arr
  *
  * Callback for http_handler_init().
  *
- * @param \Exception $exception
+ * @param mixed $exception
  *   The exception raised.
  *
  * @todo be more specific for exception and add an alter
  */
-function http_handler_exception_handler(\Exception $exception) {
+function http_handler_exception_handler($exception) {
   watchdog_exception('http_handler', $exception);
   switch (TRUE) {
     case $exception instanceof \LogicException:
