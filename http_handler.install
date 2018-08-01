@@ -48,7 +48,7 @@ function http_handler_update_7010(array &$sandbox) {
  *
  * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_update_N/7.x
  */
-function http_handler_update_7040(array &$sandbox) {
+function http_handler_update_7104(array &$sandbox) {
   variable_del('site_400');
   variable_del('site_401');
   variable_del('site_405');
