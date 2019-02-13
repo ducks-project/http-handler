@@ -166,7 +166,7 @@ function http_handler_exception_handler($exception) {
     case $exception instanceof \BadFunctionCallException:
       // No break.
     case $exception instanceof \BadMethodCallException:
-      _drupal_exception_handler($exception);
+      watchdog_exception('http_handler', $exception);
       http_handler_drupal_method_not_allowed();
       break;
 
@@ -181,12 +181,12 @@ function http_handler_exception_handler($exception) {
     case $exception instanceof \UnexpectedValueException:
       // No break.
     case $exception instanceof \RuntimeException:
-      _drupal_exception_handler($exception);
+      watchdog_exception('http_handler', $exception);
       http_handler_drupal_bad_request();
       break;
 
     case $exception instanceof \UnderflowException:
-      _drupal_exception_handler($exception);
+      watchdog_exception('http_handler', $exception);
       http_handler_drupal_gone();
       break;
 
