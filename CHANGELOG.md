@@ -6,6 +6,10 @@ where XXX is the change hash
 To get the diff between two versions, go to 
 http://cgit.drupalcode.org/http_handler/diff/?h=XXX
 
+ * 0.5.0 (2019-02-13)
+
+  * FIX : PHP7 compatibility
+
  * 0.4.0 (2017-08-25)
 
   * DEL : LICENSE (drupal.org)
