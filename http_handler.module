@@ -12,8 +12,6 @@ use Drupal\http_handler\Component\Enum\HttpStatusCodeEnum;
 
 /**
  * Implements hook_help().
- *
- * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_help/7.x
  */
 function http_handler_help($path, $arg) {
   switch ($path) {
@@ -44,8 +42,6 @@ function http_handler_help($path, $arg) {
 
 /**
  * Implements hook_init().
- *
- * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_init/7
  */
 function http_handler_init() {
   module_load_include('inc', 'http_handler', 'includes/http_handler.functions');
@@ -54,8 +50,6 @@ function http_handler_init() {
 
 /**
  * Implements hook_page_delivery_callback_alter().
- *
- * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_page_delivery_callback_alter/7.x
  */
 function http_handler_page_delivery_callback_alter(&$callback) {
   if ($callback == 'drupal_deliver_html_page') {
@@ -65,8 +59,6 @@ function http_handler_page_delivery_callback_alter(&$callback) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
- *
- * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_form_FORM_ID_alter/7.x
  */
 function http_handler_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
   $clean_url = variable_get('clean_url', 0);

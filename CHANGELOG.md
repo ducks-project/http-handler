@@ -1,38 +1,66 @@
-# CHANGELOG
+# Changelog
+All notable changes to this project will be documented in this file.
 
-To get the diff for a specific change, go to 
-http://cgit.drupalcode.org/http_handler/commit/XXX 
-where XXX is the change hash
-To get the diff between two versions, go to 
-http://cgit.drupalcode.org/http_handler/diff/?h=XXX
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
- * 0.5.0 (2019-02-13)
+Types of changes :
+- `Added` for new features.
+- `Changed` for changes in existing functionality.
+- `Deprecated` for soon-to-be removed features.
+- `Removed` for now removed features.
+- `Fixed` for any bug fixes.
+- `Security` in case of vulnerabilities.
 
-  * FIX : PHP7 compatibility
+## [Unreleased]
 
- * 0.4.0 (2017-08-25)
+## [0.6.6] - 2019-08-21
+### Changed
+- CHANGELOG standard.
+- phpcs:disable / enable
 
-  * DEL : LICENSE (drupal.org)
-  * UPT : Drupal coding Standard
+## [0.0.5] - 2019-02-13
+### Fixed
+- PHP7 compatibility
 
-   * Remove site_* var in flavor of http_handler_site_*
-   * Remove drupal_* functions in flavor of http_handler_drupal_*
+## [0.0.4] - 2017-08-25
+### Changed
+- Coding Standard : Remove site_* var in flavor of http_handler_site_*
+- Coding Standard : Remove drupal_* functions in flavor of http_handler_drupal_*
 
- * 0.3.0 (2017-08-24)
+### Removed
+- LICENSE (drupal.org)
 
-  * UPT : Drupal coding standards
-  * FIX : hook_help... (Damned to fast implementation)
-  * UPT : Readme Drupal Template
-  * ADD : 410 Gone error
+## [0.0.3] - 2017-08-24
+### Added
+- 410 Gone error
 
- * 0.2.0 (2017-08-18)
+### Changed
+- Coding Standard
+- Readme Drupal Template
 
-  * ADD : HttpStatusCodeEnum enumerator
-  * ADD : hook_help
-  * ADD : Translations
-  * FIX : PSR2 standard code
-  * UPT : Change licensing
+### Fixed
+- hook_help... (Damned to fast implementation)
 
- * 0.1.0 (2017-08-01)
+## [0.2.0] - 2017-08-18
+### Added
+- HttpStatusCodeEnum enumerator
+- hook_help
+- Translations
 
-  * init : add 400/401/405 http request handler
+### Changed
+- Change licensing
+
+### Fixed
+- PSR2 standard code
+
+## [0.1.0] - 2017-08-01
+### Added
+- 400/401/405 http request handler
+
+[Unreleased]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.5...7.x-1.x
+[0.6.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.5...7.x-0.6
+[0.5.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.4...7.x-0.5
+[0.4.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.3...7.x-0.4
+[0.3.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.2...7.x-0.3
+[0.2.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.1...7.x-0.2
+[0.1.0]: https://git.drupalcode.org/project/http_handler/tree/7.x-0.1
