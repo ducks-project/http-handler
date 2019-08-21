@@ -7,8 +7,6 @@
 
 /**
  * Implements hook_install().
- *
- * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_install/7.x
  */
 function http_handler_install() {
   $site_403 = variable_get('site_403', '');
@@ -22,8 +20,6 @@ function http_handler_install() {
 
 /**
  * Implements hook_uninstall().
- *
- * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_uninstall/7.x
  */
 function http_handler_uninstall() {
   variable_del('http_handler_site_400');
@@ -35,18 +31,7 @@ function http_handler_uninstall() {
 }
 
 /**
- * Implements hook_update_N().
- *
- * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_update_N/7.x
- */
-function http_handler_update_7010(array &$sandbox) {
-  // Nothing ...
-}
-
-/**
- * Implements hook_update_N().
- *
- * @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_update_N/7.x
+ * Remove old site_* handling variables.
  */
 function http_handler_update_7104(array &$sandbox) {
   variable_del('site_400');
