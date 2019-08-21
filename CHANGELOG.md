@@ -13,16 +13,16 @@ Types of changes :
 
 ## [Unreleased]
 
-## [0.6.6] - 2019-08-21
+## [0.6] - 2019-08-21
 ### Changed
 - CHANGELOG standard.
 - phpcs:disable / enable
 
-## [0.0.5] - 2019-02-13
+## [0.5] - 2019-02-13
 ### Fixed
 - PHP7 compatibility
 
-## [0.0.4] - 2017-08-25
+## [0.4] - 2017-08-25
 ### Changed
 - Coding Standard : Remove site_* var in flavor of http_handler_site_*
 - Coding Standard : Remove drupal_* functions in flavor of http_handler_drupal_*
@@ -30,7 +30,7 @@ Types of changes :
 ### Removed
 - LICENSE (drupal.org)
 
-## [0.0.3] - 2017-08-24
+## [0.3] - 2017-08-24
 ### Added
 - 410 Gone error
 
@@ -41,7 +41,7 @@ Types of changes :
 ### Fixed
 - hook_help... (Damned to fast implementation)
 
-## [0.2.0] - 2017-08-18
+## [0.2] - 2017-08-18
 ### Added
 - HttpStatusCodeEnum enumerator
 - hook_help
@@ -53,14 +53,14 @@ Types of changes :
 ### Fixed
 - PSR2 standard code
 
-## [0.1.0] - 2017-08-01
+## [0.1] - 2017-08-01
 ### Added
 - 400/401/405 http request handler
 
-[Unreleased]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.5...7.x-1.x
-[0.6.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.5...7.x-0.6
-[0.5.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.4...7.x-0.5
-[0.4.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.3...7.x-0.4
-[0.3.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.2...7.x-0.3
-[0.2.0]: https://git.drupalcode.org/project/http_handler/compare/7.x-0.1...7.x-0.2
-[0.1.0]: https://git.drupalcode.org/project/http_handler/tree/7.x-0.1
+[Unreleased]: https://git.drupal.org/project/http_handler/compare/7.x-0.6...HEAD
+[0.6]: https://git.drupal.org/project/http_handler/compare/7.x-0.5...7.x-0.6
+[0.5]: https://git.drupal.org/project/http_handler/compare/7.x-0.4...7.x-0.5
+[0.4]: https://git.drupal.org/project/http_handler/compare/7.x-0.3...7.x-0.4
+[0.3]: https://git.drupal.org/project/http_handler/compare/7.x-0.2...7.x-0.3
+[0.2]: https://git.drupal.org/project/http_handler/compare/7.x-0.1...7.x-0.2
+[0.1]: https://git.drupal.org/project/http_handler/tree/7.x-0.1

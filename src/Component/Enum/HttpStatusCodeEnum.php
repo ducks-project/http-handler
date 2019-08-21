@@ -31,9 +31,7 @@ namespace Drupal\http_handler\Component\Enum;
 class HttpStatusCodeEnum {
 
   // In lowercase because of SplEnum.
-  // phpcs:disable
-  const __default = self::HTTP_OK;
-  // phpcs:enable
+  const __default = self::HTTP_OK; // @codingStandardsIgnoreLine
 
   const HTTP_CONTINUE = 100;
   const HTTP_SWITCHING_PROTOCOLS = 101;
