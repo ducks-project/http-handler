@@ -1,0 +1,80 @@
+# fr_FR translation of Drupal (general)
+# Copyright 2017 Adrien Loyant <adrien.loyant@gmail.com>
+# Generated from files:
+#  /home/loyant/git/ducks-project/http-handler/http_handler.module: n/a
+#  /home/loyant/git/ducks-project/http-handler/http_handler.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: v7.0.2.0\n"
+"POT-Creation-Date: 2017-08-20 10:00+0200\n"
+"PO-Revision-Date: 2017-08-20 10:00+0200\n"
+"Language-Team: fr_FR <adrien.loyant@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: Adrien Loyant <loyant@acreat.com>\n"
+"Language: fr_FR\n"
+
+msgid "Default @code (@text) page"
+msgstr "Page @code par défaut (@text)"
+
+msgid ""
+"This page is displayed when the requested document is on error to the current "
+"user. Leave blank to display a generic \"@text\" page."
+msgstr ""
+"Cette page est affichée lorsque l'affichage du document demandé est soumise "
+"à erreur pour l'utilisateur actuel. Laisser vide pour afficher une page "
+"\"@text\" générique."
+
+msgid "The path \"@path\" is either invalid or you do not have access to it."
+msgstr ""
+"Le chemin \"@path\" est invalide ou vous n'avez pas le droit d'y accéder."
+
+msgid "Bad Request"
+msgstr "Mauvaise Demande"
+
+msgid "You are not authorized to access this page."
+msgstr "Vous n'êtes pas autorisé à accéder à cette page."
+
+msgid "Access Unauthorized"
+msgstr "Accès non-autorisé"
+
+msgid "Method Not Allowed"
+msgstr "Méthode Non Permise"
+
+msgid "bad request"
+msgstr "mauvaise demande"
+
+msgid "drupal_deliver_page error : @query"
+msgstr "drupal_deliver_page error : @query"
+
+msgid "authentication required"
+msgstr "authentification requise"
+
+msgid "method not allowed"
+msgstr "méthode non permise"
+
+msgid "gone"
+msgstr "disparu"
+
+msgid "Resource Gone"
+msgstr "Ressource Disparue"
+
+msgid "The resource is no longer available and no redirect address is known."
+msgstr "La ressource n'est plus disponible et aucune adresse de redirection n’est connue."
+
+msgid "HTTP Handler"
+msgstr "HTTP Handler"
+
+msgid ""
+"This module provide handler in order to support multiple Exceptions for 4xx "
+"or 5xx HTTP status code."
+msgstr ""
+"Ce module fournis des handlers dans le but de supporter de multiples "
+"Exceptions de status HTTP de type 4xx ou 5xx."
+
+msgid "Core Improvement"
+msgstr "Amélioration du Coeur"

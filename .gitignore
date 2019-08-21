@@ -40,4 +40,3 @@ local.properties
 .vagrant/
 /test
 /tests
-/.translations

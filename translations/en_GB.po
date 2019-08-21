@@ -1,0 +1,78 @@
+# en_GB translation of Drupal (general)
+# Copyright 2017 Adrien Loyant <adrien.loyant@gmail.com>
+# Generated from files:
+#  /home/loyant/git/ducks-project/http-handler/http_handler.module: n/a
+#  /home/loyant/git/ducks-project/http-handler/http_handler.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: v7.0.2.0\n"
+"POT-Creation-Date: 2017-08-20 10:00+0200\n"
+"PO-Revision-Date: 2017-08-20 10:00+0200\n"
+"Language-Team: fr_FR <adrien.loyant@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: Adrien Loyant <loyant@acreat.com>\n"
+"Language: en_GB\n"
+
+msgid "Default @code (@text) page"
+msgstr "Default @code (@text) page"
+
+msgid ""
+"This page is displayed when the requested document is on error to the current "
+"user. Leave blank to display a generic \"@text\" page."
+msgstr ""
+"This page is displayed when the requested document is on error to the "
+"current user. Leave blank to display a generic \"@text\" page."
+
+msgid "The path \"@path\" is either invalid or you do not have access to it."
+msgstr "The path \"@path\" is either invalid or you do not have access to it."
+
+msgid "Bad Request"
+msgstr "Bad Request"
+
+msgid "You are not authorized to access this page."
+msgstr "You are not authorized to access this page."
+
+msgid "Access Unauthorized"
+msgstr "Access Unauthorized"
+
+msgid "Method Not Allowed"
+msgstr "Method Not Allowed"
+
+msgid "bad request"
+msgstr "bad request"
+
+msgid "drupal_deliver_page error : @query"
+msgstr "drupal_deliver_page error : @query"
+
+msgid "authentication required"
+msgstr "authentication required"
+
+msgid "method not allowed"
+msgstr "method not allowed"
+
+msgid "gone"
+msgstr "gone"
+
+msgid "Resource Gone"
+msgstr "Resource Gone"
+
+msgid "The resource is no longer available and no redirect address is known."
+msgstr "The resource is no longer available and no redirect address is known."
+
+msgid "HTTP Handler"
+msgstr "HTTP Handler"
+
+msgid ""
+"This module provide handler in order to support multiple Exceptions for 4xx "
+"or 5xx HTTP status code."
+msgstr ""
+"This module provide handler in order to support multiple Exceptions for 4xx "
+"or 5xx HTTP status code."
+
+msgid "Core Improvement"
+msgstr "Core Improvement"
